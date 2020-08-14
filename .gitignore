@@ -24,7 +24,6 @@ yarn-error.log*
 
 # secrets
 src/secrets.js
-./cognito-notes.txt
 
 #amplify
 amplify/\#current-cloud-backend

@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Amplify, { Auth } from "aws-amplify";
-import logo from "./logo.svg";
+import React from "react";
+import Amplify from "aws-amplify";
 import "./App.css";
-import {
-  REGION,
-  USER_POOL_ID,
-  USER_POOL_WEB_CLIENT_ID,
-  EMAIL,
-  PASSWORD,
-} from "./secrets";
+import { REGION, USER_POOL_ID, USER_POOL_WEB_CLIENT_ID } from "./secrets";
+
+import AuthProvider from "./context/AuthProvider";
+import Login from "./components/Login";
+import AppContent from "./components/AppContent";
 
 Amplify.configure({
   Auth: {
@@ -75,57 +72,12 @@ Amplify.configure({
 //const currentConfig = Auth.configure();
 
 function App() {
-  const testState = { state: false };
-
-  const [username, setUsername] = useState(EMAIL);
-  const [password, setPassword] = useState(PASSWORD);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [state, setState] = useState(testState);
-
-  useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then((data) => setLoggedIn(true))
-      .catch((err) => setLoggedIn(false));
-  }, []);
-
-  async function signIn() {
-    await Auth.signIn(username, password)
-      .then((data) => {
-        setLoggedIn(true);
-        console.log(data);
-      })
-      .catch((err) => {
-        setLoggedIn(false);
-        console.log(`Error: ${err}`);
-      });
-  }
-  async function signOut() {
-    await Auth.signOut()
-      .then(setLoggedIn(false))
-      .catch((err) => {
-        setLoggedIn(true);
-        console.log(`Error: ${err}`);
-      });
-  }
   return (
     <div className="App">
-      <div>
-        <input
-          type="text"
-          placeholder="Username"
-          defaultValue={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          defaultValue={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button onClick={signIn}>Login</button>
-        <button onClick={signOut}>Log out</button>
-      </div>
-      {loggedIn ? <div>Logged In</div> : <div>Not Logged In</div>}
+      <AuthProvider>
+        <Login />
+        <AppContent />
+      </AuthProvider>
     </div>
   );
 }
