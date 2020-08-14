@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Auth } from "aws-amplify";
-import { AuthContext } from "../context/AuthProvider";
+import { AuthContext } from "./context/AuthProvider";
 import { EMAIL, PASSWORD } from "../secrets";
 
 const Login = () => {
@@ -19,8 +19,9 @@ const Login = () => {
         dispatch({
           type: "LOGIN",
           payload: {
+            isAuthenticated: true,
             user: user,
-            accessToken: user.signInUserSession.accessToken,
+            accessToken: user.signInUserSession.accessToken.jwtToken,
           },
         });
       })
@@ -32,7 +33,11 @@ const Login = () => {
       .then((data) =>
         dispatch({
           type: "LOGOUT",
-          payload: { isAuthenticated: false, user: null, accessToken: null },
+          payload: {
+            isAuthenticated: false,
+            user: null,
+            accessToken: null,
+          },
         })
       )
       .catch((err) => console.log(err));

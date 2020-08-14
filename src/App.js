@@ -3,7 +3,7 @@ import Amplify from "aws-amplify";
 import "./App.css";
 import { REGION, USER_POOL_ID, USER_POOL_WEB_CLIENT_ID } from "./secrets";
 
-import AuthProvider from "./context/AuthProvider";
+import AuthProvider from "./components/context/AuthProvider";
 import Login from "./components/Login";
 import AppContent from "./components/AppContent";
 
@@ -52,19 +52,19 @@ Amplify.configure({
     //clientMetadata: { myCustomKey: "myCustomValue" },
 
     // OPTIONAL - Hosted UI configuration
-    oauth: {
-      domain: "your_cognito_domain",
-      scope: [
-        "phone",
-        "email",
-        "profile",
-        "openid",
-        "aws.cognito.signin.user.admin",
-      ],
-      redirectSignIn: "http://localhost:3001/",
-      redirectSignOut: "http://localhost:3001/",
-      responseType: "code", // or 'token', note that REFRESH token will only be generated when the responseType is code
-    },
+    // oauth: {
+    //   domain: "your_cognito_domain",
+    //   scope: [
+    //     "phone",
+    //     "email",
+    //     "profile",
+    //     "openid",
+    //     "aws.cognito.signin.user.admin",
+    //   ],
+    //   redirectSignIn: "http://localhost:3001/",
+    //   redirectSignOut: "http://localhost:3001/",
+    //   responseType: "code", // or 'token', note that REFRESH token will only be generated when the responseType is code
+    // },
   },
 });
 
@@ -74,6 +74,7 @@ Amplify.configure({
 function App() {
   return (
     <div className="App">
+      <h1>Cognito Login</h1>
       <AuthProvider>
         <Login />
         <AppContent />

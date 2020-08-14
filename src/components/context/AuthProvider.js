@@ -6,7 +6,7 @@ export const AuthContext = React.createContext();
 const initialState = {
   isAuthenticated: false,
   user: null,
-  token: null,
+  accessToken: null,
 };
 
 const reducer = (state, action) => {
@@ -15,15 +15,16 @@ const reducer = (state, action) => {
       console.log("login dispatch");
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: action.payload.isAuthenticated,
         user: action.payload.user,
-        token: action.payload.token,
+        accessToken: action.payload.accessToken,
       };
     case "LOGOUT":
       return {
         ...state,
-        isAuthenticated: false,
-        user: null,
+        isAuthenticated: action.payload.isAuthenticated,
+        user: action.payload.user,
+        accessToken: action.payload.accessToken,
       };
     default:
       return state;
@@ -39,8 +40,9 @@ const AuthProvider = ({ children }) => {
         dispatch({
           type: "LOGIN",
           payload: {
+            isAuthenticated: true,
             user: user,
-            token: user.signInUserSession.accessToken,
+            accessToken: user.signInUserSession.accessToken.jwtToken,
           },
         });
       })

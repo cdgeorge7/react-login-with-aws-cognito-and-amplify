@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  display: inline-flex;
+  width: 90%;
+}
+
+table {
+  border-collapse: collapse;
+  margin-right: 10px;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+td {
+  max-width: 300px;
+  word-wrap: break-word;
+}
