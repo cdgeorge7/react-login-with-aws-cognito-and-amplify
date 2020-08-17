@@ -21,7 +21,6 @@ const Login = () => {
           payload: {
             isAuthenticated: true,
             user: user,
-            accessToken: user.signInUserSession.accessToken.jwtToken,
           },
         });
       })
@@ -36,7 +35,6 @@ const Login = () => {
           payload: {
             isAuthenticated: false,
             user: null,
-            accessToken: null,
           },
         })
       )

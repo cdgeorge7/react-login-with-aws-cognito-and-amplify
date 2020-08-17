@@ -11,7 +11,7 @@ const SIGNATURE = "signature";
 
 const AppContent = () => {
   const {
-    state: { isAuthenticated, accessToken },
+    state: { isAuthenticated, user },
   } = useContext(AuthContext);
 
   return (
@@ -19,25 +19,80 @@ const AppContent = () => {
       <div>
         <p>{isAuthenticated ? "Logged In" : "Logged Out"}</p>
       </div>
+      <h2>ID Token</h2>
       <div className="container">
         <div>
-          {typeof accessToken === "string" ? (
-            <JwtHeaderDisplay jwtheader={decodeJWT(accessToken, HEADER)} />
+          {isAuthenticated ? (
+            <JwtHeaderDisplay
+              jwtheader={decodeJWT(
+                user.signInUserSession.idToken.jwtToken,
+                HEADER
+              )}
+            />
           ) : (
             ""
           )}
         </div>
         <div>
-          {typeof accessToken === "string" ? (
-            <JwtPayloadDisplay jwtpayload={decodeJWT(accessToken, PAYLOAD)} />
+          {isAuthenticated ? (
+            <JwtPayloadDisplay
+              jwtpayload={decodeJWT(
+                user.signInUserSession.idToken.jwtToken,
+                PAYLOAD
+              )}
+              tokenType="id"
+            />
           ) : (
             ""
           )}
         </div>
         <div>
-          {typeof accessToken === "string" ? (
+          {isAuthenticated ? (
             <JwtSignatureDisplay
-              jwtsignature={decodeJWT(accessToken, SIGNATURE)}
+              jwtsignature={decodeJWT(
+                user.signInUserSession.idToken.jwtToken,
+                SIGNATURE
+              )}
+            />
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
+      <h2>Access Token</h2>
+      <div className="container">
+        <div>
+          {isAuthenticated ? (
+            <JwtHeaderDisplay
+              jwtheader={decodeJWT(
+                user.signInUserSession.accessToken.jwtToken,
+                HEADER
+              )}
+            />
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
+          {isAuthenticated ? (
+            <JwtPayloadDisplay
+              jwtpayload={decodeJWT(
+                user.signInUserSession.accessToken.jwtToken,
+                PAYLOAD
+              )}
+              tokenType="access"
+            />
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
+          {isAuthenticated ? (
+            <JwtSignatureDisplay
+              jwtsignature={decodeJWT(
+                user.signInUserSession.accessToken.jwtToken,
+                SIGNATURE
+              )}
             />
           ) : (
             ""
